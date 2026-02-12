@@ -1,7 +1,17 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from bot.config.settings import settings
-from .handlers import start_command, cart_handler, settings_handler, information_handler, comment_handler, back_handler, language_handler
+from .handlers import (
+    start_command, 
+    cart_handler, 
+    settings_handler, 
+    information_handler, 
+    comment_handler, 
+    back_handler, 
+    language_handler,
+    change_number_handler,
+    send_number_handler
+)
 
 
 def main() -> None:
@@ -15,7 +25,9 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(filters=Filters.text("✍️ Fikr qoldirish"), callback=comment_handler))
     dispatcher.add_handler(MessageHandler(filters=Filters.text("⬅️ Orqaga"), callback=back_handler))
     dispatcher.add_handler(MessageHandler(filters=Filters.text("🌐 Tilni o'zgartirish"), callback=language_handler))
-    
+    dispatcher.add_handler(MessageHandler(filters=Filters.text("📞 Telefon raqamingizni o'zgartiring"), callback=change_number_handler))
+    dispatcher.add_handler(MessageHandler(filters=Filters.contact, callback=send_number_handler))
+
 
     updater.start_polling()
     updater.idle()

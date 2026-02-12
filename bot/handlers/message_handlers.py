@@ -55,3 +55,33 @@ def language_handler(update: Update, context: CallbackContext):
             ], resize_keyboard=True
         )
     )
+
+def change_number_handler(update: Update, context: CallbackContext):
+        contact_button = KeyboardButton(
+             text="Mening raqamim",
+             request_contact=True
+        )
+        update.message.reply_html(
+        text="Iltimos, telefon raqamingizni yuboring",
+        reply_markup=ReplyKeyboardMarkup(
+            keyboard=[
+                [contact_button],
+                [KeyboardButton(text="⬅️ Orqaga")]
+            ],
+            resize_keyboard=True,
+            one_time_keyboard=True
+        )
+    )
+        
+def send_number_handler(update: Update, context: CallbackContext):
+    contact = update.message.contact
+
+    if contact.user_id != update.effective_user.id:
+        update.message.reply_text("Faqat o'zingizni raqamingizni yuboring.")
+        return
+    
+    phone_number = contact.phone_number
+
+    update.message.reply_text(
+        "✅ Telefon raqamingiz muvaffaqiyatli o'zgartirildi"
+    )
